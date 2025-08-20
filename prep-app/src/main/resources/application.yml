@@ -1,0 +1,28 @@
+spring:
+  application.name: prep-app
+#  profiles:
+#    active: prod
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: "jdbc:h2:mem:prepapp"
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true  # Formats SQL for readability
+server.port:  8080
+app:
+  name: "Prep application"
+  version: "1.0.0"
+
+
+
+

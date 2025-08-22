@@ -111,3 +111,57 @@ END
 
 ---
 
+## Problem 178: Rank Scores
+
+**🔗 Link:** [LeetCode 178 - Rank Scores](https://leetcode.com/problems/rank-scores/)
+
+### 📋 Problem Description
+**Goal:** Rank scores from highest to lowest. Tied scores get same rank, with no gaps in ranking sequence (e.g., 1,1,2,3 not 1,1,3,4).
+
+### 🎯 Key Concept
+**DENSE_RANK()** - Window function that assigns consecutive ranks without gaps, perfect for handling ties in ranking scenarios.
+
+### 💡 Approach
+- Use DENSE_RANK() OVER (ORDER BY score DESC) to assign ranks
+- Tied scores automatically get the same rank
+- Next rank after ties is consecutive (no gaps)
+- **Requires:** MySQL 8.0+ for window functions
+
+### 📝 Solution Template
+```sql
+-- DENSE_RANK approach (MySQL 8.0+)
+SELECT 
+    score, 
+    DENSE_RANK() OVER (ORDER BY score DESC) 'rank' 
+FROM Scores;
+```
+
+---
+
+## Problem 180: Consecutive Numbers
+
+**🔗 Link:** [LeetCode 180 - Consecutive Numbers](https://leetcode.com/problems/consecutive-numbers/)
+
+### 📋 Problem Description
+**Goal:** Find all numbers that appear at least three times consecutively in the Logs table. Return distinct numbers that have 3+ consecutive occurrences.
+
+### 🎯 Key Concept
+**Self-Join Pattern** - Use multiple self-joins to check consecutive rows and compare their values for pattern matching.
+
+### 💡 Approach
+- Self-join Logs table 3 times (l1, l2, l3) to get consecutive rows
+- Check that IDs are consecutive: `l1.id = l2.id - 1` AND `l2.id = l3.id - 1`
+- Ensure all three numbers are the same: `l1.num = l2.num = l3.num`
+- Use DISTINCT to avoid duplicate results
+
+### 📝 Solution Template
+```sql
+-- Self-join approach (works in all MySQL versions)
+SELECT DISTINCT l1.num AS ConsecutiveNums 
+FROM Logs l1, Logs l2, Logs l3
+WHERE l1.id = l2.id - 1 AND l2.id = l3.id - 1
+    AND l1.num = l2.num AND l2.num = l3.num;
+```
+
+---
+

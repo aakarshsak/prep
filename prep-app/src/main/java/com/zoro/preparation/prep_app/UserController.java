@@ -2,12 +2,11 @@ package com.zoro.preparation.prep_app;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
@@ -17,17 +16,17 @@ public class UserController {
     private AppProperties appProperties;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
 
     @GetMapping
     public ResponseEntity<List<User>> getAllUsers() {
-        return ResponseEntity.ok(userRepository.findAll());
+        return ResponseEntity.ok(userService.getAllUsers());
     }
 
     @PostMapping
-    public String addUser(@Valid @RequestBody User user) {
-        userRepository.save(User.builder().name(user.getName()).email(user.getEmail()).role(user.getRole()).build());
-        return "Success";
+    public ResponseEntity<User> addUser(@Valid @RequestBody User user) {
+        User savedUser = userService.addUser(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedUser);
     }
 
     @GetMapping("/app-info")

@@ -14,5 +14,5 @@ public class AppProperties {
     private String environment;
     private String version;
     private boolean debug;
-    private boolean mockEnternalServices;
+    private boolean mockExternalServices;
 }

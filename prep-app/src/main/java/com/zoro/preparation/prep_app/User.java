@@ -22,13 +22,13 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @NotNull(message = "Name is required")
     private String name;
 
-    @Email
+    @Email(message = "Invalid email format")
     @Column(unique = true)
     private String email;
 
-    @Pattern(regexp = "ADMIN|USER")
+    @Pattern(message = "Invalid value for role", regexp = "ADMIN|USER")
     private String role;
 }
